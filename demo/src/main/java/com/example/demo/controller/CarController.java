@@ -2,25 +2,23 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.CarDto;
 import com.example.demo.service.CarService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/cars")
+@RequiredArgsConstructor
 public class CarController {
 
     private final CarService carService;
 
-    @Autowired
-    public CarController(CarService carService) {
-        this.carService = carService;
-    }
-
     @PostMapping
-    public void create(@RequestBody CarDto carDto) {
+    public ResponseEntity<String> create(@RequestBody CarDto carDto) {
         this.carService.create(carDto);
+        return ResponseEntity.ok("Пользователь создан");
     }
 
     @GetMapping

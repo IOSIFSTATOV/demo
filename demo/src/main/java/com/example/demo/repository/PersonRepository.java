@@ -7,9 +7,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface PersonRepository extends CrudRepository<Person, Integer> {
-
+    
     @Transactional
     @Modifying
     @Query("UPDATE Person person SET person.nume = :nume, person.age = :age WHERE person.id =:id  ")
