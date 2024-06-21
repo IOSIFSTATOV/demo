@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.PersonDto;
 import com.example.demo.model.Person;
 import com.example.demo.repository.PersonRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 @Service
+@RequiredArgsConstructor
 public class PersonService {
 
-    @Autowired
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
 
     public void create(PersonDto personDto) {
         Person person = new Person(personDto.getNume(), personDto.getAge());
