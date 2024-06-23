@@ -2,9 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.PersonDto;
 import com.example.demo.service.PersonService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 
@@ -14,13 +17,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/people")
+@Validated
 public class PersonController {
 
     @Autowired
     private PersonService personService;
 
     @PostMapping
-    public void create(@RequestBody PersonDto personDto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public void create(@Valid @RequestBody PersonDto personDto) {
         this.personService.create(personDto);
     }
 
@@ -30,7 +35,7 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public PersonDto getById(@PathVariable Integer id) {
+    public PersonDto getById(@PathVariable @Min(value = 13, message = "id must be bigger") Integer id) {
         return this.personService.getById(id);
     }
 

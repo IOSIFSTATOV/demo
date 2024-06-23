@@ -22,9 +22,9 @@ public class Person {
     @Column(name = "age")
     private Integer age;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "serial_number")
-    private Car car;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "serial_number")
+//    private Car car;
 
     public Person() {
     }
@@ -54,15 +54,15 @@ public class Person {
         this.age = age;
     }
 
-    public Person(Car car) {
-        this.car = car;
-    }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
+//    public Person(Car car) {
+//        this.car = car;
+//    }
+//
+//    public Car getCar() {
+//        return car;
+//    }
+//
+//    public void setCar(Car car) {
+//        this.car = car;
+//    }
 }
