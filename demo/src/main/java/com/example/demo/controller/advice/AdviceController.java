@@ -1,5 +1,6 @@
 package com.example.demo.controller.advice;
 
+import com.example.demo.exception.DataNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -23,13 +24,13 @@ public class AdviceController {
     @ExceptionHandler(value = ConstraintViolationException.class)
     public String handleConstrainViolationException(ConstraintViolationException exception) {
         Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
-        ConstraintViolation<?> violation = constraintViolations.iterator().next();
-        if (constraintViolations.isEmpty()
-                || violation.getMessageTemplate().isEmpty()
-                || violation.getMessageTemplate() == null) {
+        if (constraintViolations.isEmpty()) {
             return "Constraint validation exception";
         }
-        return violation.getMessageTemplate();
+        return constraintViolations.stream()
+                .map(ConstraintViolation::getMessageTemplate)
+                .filter(message -> message != null && !message.isEmpty())
+                .collect(Collectors.joining("\n"));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -44,4 +45,11 @@ public class AdviceController {
                 .filter(message -> message != null && !message.isEmpty())
                 .collect(Collectors.joining("\n"));
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(value = DataNotFoundException.class)
+    public String handleDataNotFoundException(DataNotFoundException exception) {
+        return exception.getMessage() == null ? "Data not found exception" : exception.getMessage();
+    }
+
 }
