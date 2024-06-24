@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.PersonDto;
+import com.example.demo.exception.DataNotFoundException;
 import com.example.demo.model.Person;
 import com.example.demo.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class PersonService {
     public PersonDto getById(Integer id) {
         Optional<Person> people = personRepository.findById(id);
         if (people.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new DataNotFoundException("Person not found by id: " + id);
         }
         Person person = people.get();
         return new PersonDto(person.getNume(), person.getAge());
